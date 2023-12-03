@@ -7,7 +7,9 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                    <a class="navbar-brand" href="/"><img width="100px" height="65px" src="/front/images/logo.jpg" class="logo p-2" alt=""></a>
+                    <a class="navbar-brand" href="/"><img width="40px" src="/front/images/logo.jpg" class="W-50" alt="">
+                    <h5><strong>TWINSHOTIN-AGRO</strong></h5>
+                </a>
                 </div>
                 <!-- End Header Navigation -->
 

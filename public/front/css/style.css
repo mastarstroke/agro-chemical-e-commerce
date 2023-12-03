@@ -952,8 +952,12 @@
 }
  .why-text h4{
      font-size: 16px;
-     font-weight: 700;
-     padding-bottom: 15px;
+     font-weight: 600;
+     padding-bottom: 25px;
+     display: -webkit-box;
+     -webkit-line-clamp: 1;
+     -webkit-box-orient: vertical;
+     overflow: hidden;
 }
  .why-text h5{
      font-size: 18px;

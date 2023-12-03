@@ -139,10 +139,20 @@
                         <hr class="mb-4">
                             <div class="title"> <h3>Payment</span> </h3>
                             <div class="d-block my-3">
-                               
-                            <button class="btn btn-primary w-100 float-center" onclick="openForm()">
+
+                            <!-- Paystack Payment Button here -->
+                            <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}">
+
+                            <button class="btn btn-success btn-lg btn-block mb-3" onclick="payWithPaystack()">
+                                <i class="fa fa-plus-circle fa-lg"></i> Pay with Card
+                            </button>
+                                         
+                            <!-- Bank Payment Button here -->
+                            <button class="btn btn-primary btn-lg btn-block" onclick="openForm()">
                             Bank Payment <span class="float-right"><i class="fas fa-arrow-down"></i></span> </button>
 
+                            
+                            <!-- The dropdown bar -->
                             <div id="myForm" class="card-from">
                                 <div class="row mt-3">
                                 <div class="col-12 mb-2">
@@ -170,7 +180,7 @@
                                         <h4>Please Upload payment receipt here!</h4>
                                     </div>
 
-                                    <input type="file" name="image" required>
+                                    <input type="file" name="receipt" required>
                                 </div>
                                 </div>
                                 <div class="row mt-2">
@@ -185,13 +195,14 @@
                                     </div>
                                 </div>
 
-                            </div><!-- End .card form -->
+                            </div><!-- End .bank payment details -->
 
                         @endif
 
                             </div>
                             
-                            <hr class="mb-1"> </form>
+                            <hr class="mb-1"> 
+                        </form>
                         </div>
                     </div>
 
@@ -209,9 +220,13 @@
 
  <script>
 
-// function including route for Card/Stripe payment
+// function including route for Card/Paystack & Bank payment
 function bankPayment() {
     $('#billing-form').attr('action', '{{route('place-order')}}').submit();
+}
+
+function payWithPaystack() {
+    $('#billing-form').attr('action', '{{route('paystack')}}').submit();
 }
 </script>
 

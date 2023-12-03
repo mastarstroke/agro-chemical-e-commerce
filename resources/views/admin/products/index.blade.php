@@ -65,7 +65,6 @@
                                             <th style="padding: 7px;">New_price</th>
                                             <th style="padding: 7px;">Qty</th>
                                             <th style="padding: 7px;">Trending</th>
-                                            <th style="padding: 7px;">Desc</th>
                                             <th style="padding: 7px;">Image</th>
                                             <th></th>
                                             <th></th>
@@ -82,7 +81,6 @@
                                                 <td style="padding: 7px;"> &#x20A6;{{$product->selling_price}}</td>
                                                 <td style="padding: 7px;">{{$product->qty}}</td>
                                                 <td style="padding: 7px;">{{$product->trending}}</td>
-                                                <td style="padding: 7px;">{{$product->description}}</td>
                                                 <td><img height="80" width="80" class="mb-2" src="/productimage/{{$product->image}}" alt=""></td>
                                                 <td>
                                                     

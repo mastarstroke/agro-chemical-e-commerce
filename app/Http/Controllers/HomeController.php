@@ -29,7 +29,7 @@ class HomeController extends Controller
             else
             { 
                 $cartCount = Cart::where('user_id', Auth::id())->count();
-                $products = Product::where('qty', '>', '0')->latest()->paginate(8);
+                $products = Product::where('qty', '>', '0')->latest()->paginate(20);
                 $categories = Category::all();
                 $trending = Product::where('trending', 'YES')->get();
                 $settings = Settings::first();
@@ -46,7 +46,7 @@ class HomeController extends Controller
     {
         $cartCount = Cart::where('user_id', Auth::id())->count();
         $trending = Product::where('trending', 'YES')->get();
-        $products = Product::where('qty', '>', '0')->latest()->paginate(8);
+        $products = Product::where('qty', '>', '0')->latest()->paginate(30);
         $categories = Category::all();
         $settings = Settings::first();
         return view('shop', compact('cartCount','trending','products','categories', 'settings'));

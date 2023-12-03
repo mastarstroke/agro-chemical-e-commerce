@@ -57,11 +57,11 @@
                                     <div class="type-lb">
                                         <p class="sale">New</p>
                                     </div>
-                                    <img src="/productimage/{{$product->image}}" class="shop-img" height="200" width="210" alt="Image">
+                                    <img src="/productimage/{{$product->image}}" class="shop-img" height="150" width="210" alt="Image">
                                 </div>
                                 <div class="why-text">
                                     <h4>{{$product->name}}</h4>
-                                    <h6> <s> &#x20A6;{{$product->original_price}} </s> </h6>
+                                    <h6 class="mt-3"> <s> &#x20A6;{{$product->original_price}} </s> </h6>
                                     <h5 class="float-end px-4">  &#x20A6;{{$product->selling_price}}</h5>
                                 </div>
                             </div>

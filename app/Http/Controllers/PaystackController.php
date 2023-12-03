@@ -1,74 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Payment;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
 use App\Models\Product;
-use App\Models\AccountSettings;
 use App\Models\Order;
 use App\Models\OrderItems;
 use App\Models\User;
-use App\Models\Settings;
 
-class CheckoutController extends Controller
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
+use Paystack;
+
+class PaystackController extends Controller
 {
-    // Constructing function for middleware
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
 
-    public function index(Request $request)
-    {
-        if(Auth::id()){
-            $image=$request->image;
-            $cartCount = Cart::where('user_id', Auth::id())->count();
-    
-            $old_cartItems = Cart::where('user_id', Auth::id())->get();
-            foreach($old_cartItems as $item)
-            {
-                if(!Product::where('id', $item->prod_id)->exists())
-                {
-                    $removeItem = Cart::where('user_id', Auth::id())->where('prod_id', $item->prod_id)->first();
-                    $removeItem->delete();
-                }
-            }
-            $cartViews = Cart::where('user_id', Auth::id())
-            ->join('products', 'carts.prod_id', '=', 'products.id')
-            ->get();
-    
-            $accounts = AccountSettings::all();
-            $settings = Settings::first();
-    
-            return view('checkout.index', compact('cartViews','cartCount','image', 'accounts','settings'));
-        }
-        else
-        {
-            return redirect('login')->with('Warning', 'Login to start your session');
-        }
-       
-    }
-    
-    public function buy_index(Request $request, $id)
-    {
-        $product_qty = $request->input('qty');
-        
-        $image=$request->image;
-        $cartCount = Cart::where('user_id', Auth::id())->count();
-
-
-        $prod_view = Product::find($id);
-
-        $accounts = AccountSettings::all();
-        $settings = Settings::first();
-
-        return view('checkout.buy_checkout', compact('prod_view','cartCount','image', 'accounts','settings'));
-    }
-
-    public function placeOrder(Request $request)
-    {
+    /**
+     * Redirect the User to Paystack Payment Page
+     * @return Url
+     */
+    public function redirectToGateway(Request $request)
+    {     
         $order = new Order();
         $order->user_id = Auth::id();
         $order->name = $request->input('name');
@@ -79,14 +34,7 @@ class CheckoutController extends Controller
         $order->email = $request->input('email');
         $order->message = $request->input('message');
 
-        $image=$request->receipt;
-
-        $imagename=time().'.'.$image->getClientOriginalExtension();
-        $request->receipt->move('receipt', $imagename);
-        $order->image=$imagename;
-
         $order->total_price = $request->input('total_price');
-        $order->payment = "COD";
 
         $order->save();
 
@@ -142,8 +90,40 @@ class CheckoutController extends Controller
 
             Cart::destroy($cartitems);
         }
+        try{  
+            $data = array(
+                "amount" => $order->total_price * 100,
+                "reference" => $request->reference,
+                "email" => $order->email,
+                "currency" => 'NGN',
+                "orderID" => 'PayStackID'.rand(11111,99999),
+            );
+            
+            return Paystack::getAuthorizationUrl($data)->redirectNow();
+        }catch(\Exception $e) {
+            return Redirect::back()->with(['error'=>'The paystack token has expired. Please refresh the page and try again.', 'type'=>'error']);
+        }        
+    }
 
+    /**
+     * Obtain Paystack payment information
+     * @return void
+     */
+    public function handleGatewayCallback()
+    {
+        $paymentDetails = Paystack::getPaymentData();
 
-        return redirect()->back()->with('success', "Order Placed Successfully");
+        // dd($paymentDetails);
+
+        // Update records after successfull payment
+        if(Order::where('user_id', Auth::id()))
+        {
+            $order = Order::latest()->first();
+            $order->payment = 'PayStack/' . $paymentDetails['data']['channel'];
+            $order->save();
+        }
+        // Back to Home page with sweet alert displaying the payment ID
+        return Redirect::to('checkout')
+        ->with('success', 'ORDER PLACED SUCCESSFULLY! ..Your payment ID is : '. $order->payment_id );  
     }
 }

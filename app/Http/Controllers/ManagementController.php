@@ -63,12 +63,6 @@ class ManagementController extends Controller
 
     public function settingAccountStore(Request $request)
     {
-        // This validate the required input from the add products page
-        $this->validate($request,[
-            'ac_name' => 'string',
-            'ac_no' => 'required',
-            'ac_bank' => 'string',
-        ]);
 
         // Store the datas here with the image in the public.pruductimage folder
         // into the ProductModels table.
@@ -97,7 +91,7 @@ class ManagementController extends Controller
         // This validate the required input from the add products page
         $this->validate($request,[
             'ac_name' => 'string',
-            'ac_no' => 'required',
+            'ac_no' => 'string',
             'ac_bank' => 'string',
         ]);
 
@@ -125,7 +119,7 @@ class ManagementController extends Controller
     {
         $accSettings = AccountSettings::find($id);
 
-        $accSettings->active = $request->active == TRUE ? 'Yes': 'No';;
+        $accSettings->active = $request->active == TRUE ? 'Yes': 'No';
         $accSettings->save(); 
 
         return redirect()->back()->with('success', "Account Successfully Activated!");

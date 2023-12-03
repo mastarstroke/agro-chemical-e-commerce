@@ -76,7 +76,7 @@
                     <div class="item">
                         <div class="products-single fix">
                             <div class="box-img-hover">
-                            <img width="320" height="300" class="my-3" src="/productimage/{{$trend->image}}" alt="" />
+                            <img width="250" height="250" class="my-3" src="/productimage/{{$trend->image}}" alt="" />
                                 <div class="mask-icon">
                                     <a class="cart" href="{{route('product/details', $trend->id)}}">Buy Product</a>
                                 </div>
@@ -94,6 +94,19 @@
 			</div>
 		</div>
 	</div>
+
+       <!-- Start All Title Box -->
+            <div class="all-title-box">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3 class="text-white">{{$settings->ab_desc}}</h3>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End All Title Box -->
 
     <!-- Start Products  -->
     <div class="products-box">
@@ -126,15 +139,12 @@
                     <a href="{{route('product/details', $product->id)}}">
                     <div class="products-single fix">
                         <div class="box-img-hover">
-                            <div class="type-lb">
-                                <p class="sale">New</p>
-                            </div>
                             <img src="/productimage/{{$product->image}}" class="product-img"
-                            height="200" width="280" alt="Image">
+                            height="150" width="250" alt="Image">
                         </div>
-                        <div class="why-text">
+                        <div class="why-text p-auto">
                             <h4>{{$product->name}}</h4>
-                            <h6> <s> &#x20A6;{{$product->original_price}} </s> </h6>
+                            <h6 class="mt-3"> <s> &#x20A6;{{$product->original_price}} </s> </h6>
                             <h5 class="float-end px-4">  &#x20A6;{{$product->selling_price}}</h5>
                         </div>
                     </div>

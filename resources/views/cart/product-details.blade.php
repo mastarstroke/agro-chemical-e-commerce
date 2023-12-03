@@ -43,7 +43,7 @@
 								<div class="form-group quantity-box">
                                 @if(Auth::id())
 									<label class="control-label">Quantity <small>(How many do you want?)</small></label>
-									<input class="form-control" name="qty" min="1" max="{{$products->qty}}" type="number">
+									<input class="form-control" name="qty" min="1" max="{{$products->qty}}" type="number" required>
                                 @else
                                 <label class="control-label">If You want more than one or products. Please add to cart.</label>
                                 @endif

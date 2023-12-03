@@ -134,17 +134,23 @@
                             <div class="title"> <h3>Payment</span> </h3>
                             <div class="d-block my-3">
                                
-                                <button class="btn btn-primary w-100 float-center" onclick="openForm()">
-                                Bank Payment <span class="float-right"><i class="fas fa-arrow-down"></i></span> </button>
+                            <!-- Paystack Payment Button here -->
+                            <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}">
 
-                               
+                            <button class="btn btn-success btn-lg btn-block mb-3" onclick="payWithPaystack()">
+                                <i class="fa fa-plus-circle fa-lg"></i> Pay with Card
+                            </button>
+                                         
+                            <!-- Bank Payment Button here -->
+                            <button class="btn btn-primary btn-lg btn-block" onclick="openForm()">
+                            Bank Payment <span class="float-right"><i class="fas fa-arrow-down"></i></span> </button>
 
-                                <div id="myForm" class="card-from">
-                                    <div class="row mt-3">
-                                    <div class="col-12 mb-2">
-                                        <p><strong>Note:</strong> Use This Bank Details to make payment and upload your receipt
-                                            using. Your payment would be confirmed before delivery proceed. Thanks</p>
-
+                            <!-- The dropdown bar -->
+                            <div id="myForm" class="card-from">
+                                <div class="row mt-3">
+                                <div class="col-12 mb-2">
+                                    <p><strong>Note:</strong> Use This Bank Details to make payment and upload your receipt
+                                        using. Your payment would be confirmed before delivery proceed. Thanks</p>
                                         @foreach($accounts as $account)
                                         @if($account->active == 'Yes')
                                         <div class="my-4">
@@ -155,35 +161,34 @@
                                         </div>
                                         @endif
                                         @endforeach
-                                        
-                                    @if($image)
+                                    
+                                @if($image)
                                     Photo Preview::
                                     <img height="100" width="100" class="" src="{{$image->temporaryUrl() }}" alt="">
                                     @endif
 
-                                        <br>
+                                    <br>
 
-                                        <div class="">
-                                            <h4>Please Upload payment receipt here!</h4>
-                                        </div>
-
-                                        <input type="hidden"  name="prod_id" value="{{$prod_view->id}}"> 
-                                        <input type="file" name="image" required>
-                                    </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-6">
-                                            <input type="hidden" name="total_price" value="{{$prod_view->selling_price}}">
-                                            <button type="button" class="btn btn-success w-100"
-                                            onclick="bankPayment()">Confirm &#x20A6; {{$prod_view->selling_price}}</button>
-                                        </div>
-                                        <div class="col-6">
-                                            <button type="button" class="btn btn-danger w-100 cancel"
-                                                onclick="closeForm()">Close</button>
-                                        </div>
+                                    <div class="">
+                                        <h4>Please Upload payment receipt here!</h4>
                                     </div>
 
-                                </div><!-- End .card form -->
+                                    <input type="file" name="receipt" required>
+                                </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        <input type="hidden" name="total_price" value="{{$prod_view->selling_price}}">
+                                        <button type="button" class="btn btn-success w-100"
+                                        onclick="bankPayment()">Confirm &#x20A6; {{$prod_view->selling_price}}</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger w-100 cancel"
+                                            onclick="closeForm()">Close</button>
+                                    </div>
+                                </div>
+
+                            </div><!-- End .bank payment details -->
                                 
                         @endif
 

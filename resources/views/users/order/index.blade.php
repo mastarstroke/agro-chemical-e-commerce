@@ -38,7 +38,7 @@
                                     <td class="cell"><span class="note">{{$order->created_at}}</span></td>
                                     <td class="cell"><span class="badge bg-warning">{{$order->status == '0' ?'pending' : 'completed'}}</span></td>
                                     <td class="cell"> &#x20A6; {{$order->total_price}}</td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" href="{{route('users-view-orders',$order->id )}}">View</a></td>
+                                    <td class="cell"><a class="btn-sm btn-secondary" href="{{route('users-view-orders',$order->id )}}">View</a></td>
                                 </tr>
                                 @endforeach
                             </tbody>

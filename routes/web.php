@@ -52,6 +52,9 @@ Route::get('my-orders', [OrderController::class, 'userOrders'])->name('my-orders
 Route::get('users-view-orders/{id}', [OrderController::class, 'usersViewOrder'])->name('users-view-orders');
 Route::get('users-orders-history', [OrderController::class, 'userOrdersHistory'])->name('users-orders-history');
 
+Route::post('/paystack', [App\Http\Controllers\PaystackController::class, 'redirectToGateway'])->name('paystack');
+Route::get('/payment/callback', [App\Http\Controllers\PaystackController::class, 'handleGatewayCallback']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
     
